@@ -1,0 +1,30 @@
+CREATE [OR REPLACE] VIEW view_name AS
+SELECT column_list
+FROM table_list
+WHERE conditions;
+
+\\single table\\
+CREATE VIEW v_student AS
+SELECT sid, sname, branch FROM STUDENT;
+
+\\multiple table\\
+CREATE VIEW v_student_dept AS
+SELECT s.sid, s.sname, s.branch, b.yoj
+FROM STUDENT s
+JOIN BRANCH b ON s.branch = b.bname;
+
+
+CREATE OR REPLACE VIEW v_student_branch AS
+SELECT sid, branch FROM STUDENT;
+
+INSERT INTO STUDENT (sid, sname, perc, gender, branch)
+VALUES (1, 'Alice', 85.5, 'F', 'CSE');
+COMMIT;
+
+UPDATE v_student_branch SET branch = 'ECE' WHERE sid = 1;
+COMMIT;
+
+DELETE FROM v_student_branch WHERE sid = 2;
+COMMIT;
+
+DROP VIEW v_student_branch;
