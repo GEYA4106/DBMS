@@ -1,0 +1,32 @@
+select * from branch;
+insert into student values(1,'pinky',24,'ece',92);
+insert into student values(2,'chinna',28,'it',97);
+insert into student values(3,'geya',19,'cse',95);
+insert into student values(4,'honey',17,'mech',93);
+select * from student;
+insert into branch values('pinky',11-11-2001,50);
+insert into branch values('chinna',17-12-1999,60);
+insert into branch values('geya',4-10-2006,70);
+insert into branch values('honey',7-8-2007,40);
+select * from branch;
+
+select * from student where bname in('cse','it');
+
+select name from student where bname='cse' and perc>60;
+
+select name from student where perc=(select max(perc) from student);
+
+select name from student where age between 15 and 30;
+
+alter table branch
+add constraint pk_branch primary key(bname);
+alter table student
+add constraint pk_student primary key(regno);
+alter table student
+add constraint fk_student_branch foreign key(bname) references branch(bname);
+
+select * from student where name like 'a%';
+
+select s.name from student s
+join branch b on s.bname=b.bname
+where b.yoj=2008;
