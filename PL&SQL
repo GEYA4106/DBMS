@@ -1,0 +1,137 @@
+
+declare
+m number :=&m
+n number :=&n
+result number;
+begin
+    result:=m/n
+    dbms_output.put_line('Result:'||result);
+exception
+when zero_divides then
+    dbms_output.put_line('cannot divide with zero');
+when others then
+    dbms_output.put_line('unexpected error occured');
+end;
+
+declare
+num1 number:=&num1;
+num2 number:=&num2;
+num3 number:=&num3;
+largest number;
+begin
+    if (num1>num2) and (num1>num3) then
+        largest:=num1;
+    elsif (num2>num1) and (num2>num3) then
+        largest:=num2;
+    else 
+        largest:=num3;
+    end if;
+    dbms_output.put_line('Largest:'||largest);
+end;
+
+
+declare
+r number:=&r;
+pi number:=3.14;
+area number;
+circumference number;
+begin 
+    area:=pi*r*r;
+    circumference:=2*pi*r;
+    dbms_output.put_line('Area:'||area);
+    dbms_output.put_line('Circumference:'||circumference);
+end;
+
+declare 
+n number:=&num;
+fact number:=1;
+begin
+    for i in 1..n loop
+    fact:=fact*i;
+    end loop;
+    dbms_output.put_line('factorial of'||n||'is'||fact);
+end;
+
+
+declare
+n varchar(20):='&input_string';
+rev varchar(20):='';
+begin
+    for i in reverse 1..length(n) loop
+    rev:=rev||substr(n,i,1);
+end loop;
+dbms_output.put_line('Original string'||n);
+dbms_output.put_line('Reverse string'||rev);
+end;
+
+
+DECLARE
+n number := &n;
+sum number := 0;
+digit number;
+temp number;
+BEGIN
+    temp := n;
+    while temp>0 loop
+    digit := mod(temp,10);
+    sum := sum+digit;
+    temp := temp/10;
+    temp  := floor(temp);
+    end loop;
+DBMS_OUTPUT.PUT_LINE(sum);
+END;
+
+DECLARE
+n number:=&n;
+sum number:=0;
+begin
+    for i in 1..n loop
+    sum:=sum+i;
+    end loop;
+dbms_output.put_line(sum);
+end;
+
+declare
+n number:=&n;
+BEGIN
+    if n>0 then 
+        dbms_output.put_line('positive number');
+    else
+        dbms_output.put_line('negative number');
+    end if;
+end;
+
+
+DECLARE
+BEGIN
+    insert into stu values(1,'geya','cse','f');
+    insert into stu values(2,'shannu','eee','f');
+    savepoint first_save;
+    insert into stu values(3,'siraj','it','m');
+    insert into stu values(4,'safia','aids','f');
+    rollback to first_save;
+    insert into stu values(5,'farhan','ece','m');
+    commit;
+DBMS_OUTPUT.PUT_LINE('TRANSACTION COMPLETED SUCCESSFULLY');
+exception
+    when others then
+        DBMS_OUTPUT.PUT_LINE('ERROR OCCURED');
+        ROLLBACK;
+END;
+
+DECLARE
+v_count number :=0;
+no_data exception;
+BEGIN
+    for rec in (select sid,sname,perc from students where perc>=60)loop
+    v_count := v_count + 1;
+    DBMS_OUTPUT.PUT_LINE('SID' || rec.sid ||'SNAME' || rec.sname || 'PERC' || rec.perc);
+    end loop;
+
+    if v_count :=0;
+    raise no_data;
+    end if;
+exception
+when no_data then
+DBMS_OUTPUT.PUT_LINE('no students got first class');
+end;
