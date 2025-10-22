@@ -1,0 +1,100 @@
+create table sailors(
+    sid integer primary key,
+    sname varchar(20),
+    age integer,
+    rating integer
+)
+
+create table boats(
+    bid integer primary key,
+    bname varchar(20),
+    color varchar(30)
+)
+
+create table reserves(
+    sid integer,
+    bid integer,
+    r_day date,
+    foreign key(sid) references sailors(sid),
+    foreign key(bid) references boats(bid))
+
+insert into sailors values(101,'geys',19,2);
+insert into sailors values(102,'pink',24,5);
+insert into sailors values(103,'chinna',28,4);
+insert into sailors values(104,'shannu',18,3);
+
+select * from sailors;
+
+insert into boats values(105,'b1','red');
+insert into boats values(106,'b2','yellow');
+insert into boats values(107,'b3','green');
+insert into boats values(108,'b4','black');
+
+select * from boats;
+
+insert into reserves values(101,105,'08-jan-2008');
+insert into reserves values(102,106,'04-oct-2006');
+insert into reserves values(103,107,'19-may-2007');
+insert into reserves values(104,108,'11-nov-2001');
+
+select * from reserves;
+
+alter table sailors
+add constraint uq_sailors_rating UNIQUE(rating);
+
+select sname from sailors
+where sid in(
+    select sid from reserves
+    where bid in(
+        select bid from boats where color='red'
+    )
+);
+
+select sname,age from sailors;
+
+select sid from reserves r join boats b on r.bid=b.bid
+where b.color='red';
+select sid from reserves r join boats b on r.bid=b.bid
+where b.color='green';
+
+delete from sailors
+where age>30 and rating<10;
+
+select distinct b.color from boats b
+join reserves r on b.bid=r.bid
+join sailors s on s.sid=r.sid
+where s.sname='chinna';
+
+select rating, min(age) as youngest_age
+from sailors
+group by rating
+order by rating;
+
+select age from sailors
+where length(sname>=3)
+    and (substr(sname,1,1))='B'
+    and (substr(sname,-1,1))='B';
+
+select s1.* from sailors s1
+where s1.rating>all(
+    select s2.rating from sailors s2 where sname='shannu'
+);
+
+select * from sailors where rating=(select max(rating)from sailors);
+
+select s.id,s.name from sailors s
+join reserves r on s.sid=r.sid
+group by s.id,s.name
+having count(distinct s.bid)>=2;
+
+select sname from sailors s
+where s.sid not in(
+    select sid from reserves where bid='103'
+);
+
+select distinct s.sname from sailors s
+join reserves r on s.sid=r.sid
+join boats b on r.bid=b.bid
+where b.color='red';
+
+select * from sailors where rating>7;
